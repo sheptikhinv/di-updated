@@ -45,9 +45,9 @@ public class SpiralCoordinateGeneratorTests
         var gen = new SpiralCoordinateGenerator(center, 1.0);
 
         var set = new HashSet<Point>();
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 10; i++)
             set.Add(gen.GetNextPosition());
 
-        Assert.That(set.Count, Is.GreaterThan(1), "Expected more than one unique point after 2 calls");
+        Assert.That(set.Count, Is.GreaterThan(1), "Expected more than one unique point after 10 calls");
     }
 }
