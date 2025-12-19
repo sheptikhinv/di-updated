@@ -2,6 +2,14 @@ namespace TagsCloudContainer.Core.FileReaders;
 
 public class BasicFileReader : IFileReader
 {
+    private static readonly string[] SupportedExtensions = [".txt"];
+
+    public bool CanReadFile(string filePath)
+    {
+        var extension = Path.GetExtension(filePath).ToLower();
+        return SupportedExtensions.Contains(extension);
+    }
+
     public List<string> GetWords(string filePath)
     {
         try

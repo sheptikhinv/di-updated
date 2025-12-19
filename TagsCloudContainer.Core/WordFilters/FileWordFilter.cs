@@ -4,13 +4,11 @@ namespace TagsCloudContainer.Core.WordFilters;
 
 public class FileWordFilter : IWordFilter
 {
-    private readonly IFileReader _reader;
-    private List<string> _wordsToExclude;
+    private readonly List<string> _wordsToExclude;
 
-    public FileWordFilter(IFileReader reader, string filePath)
+    public FileWordFilter(FileReaderFactory readerFactory, string filePath)
     {
-        _reader = reader;
-        _wordsToExclude = _reader.GetWords(filePath).Distinct().ToList();
+        _wordsToExclude = readerFactory.ReadFile(filePath).Distinct().ToList();
     }
 
     public List<string> ExcludeBoringWords(List<string> words)

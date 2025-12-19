@@ -23,11 +23,11 @@ class Program
         var container = BuildContainer(options);
 
         using var scope = container.BeginLifetimeScope();
-        var reader = scope.Resolve<IFileReader>();
+        var readerFactory = scope.Resolve<FileReaderFactory>();
         var filter = scope.Resolve<IWordFilter>();
         var visualizator = scope.Resolve<IVisualizator>();
 
-        var content = reader.GetWords(options.FilePath);
+        var content = readerFactory.ReadFile(options.FilePath);
         var filtered = filter.ExcludeBoringWords(content);
         var count = WordCounter.CountWords(filtered);
         visualizator.DrawWordsToFile(count, options.OutputFilePath);
@@ -45,6 +45,7 @@ class Program
         var builder = new ContainerBuilder();
 
         builder.RegisterInstance(options).AsSelf().SingleInstance();
+        
         builder.Register(c =>
         {
             var opts = c.Resolve<Options>();
@@ -61,14 +62,21 @@ class Program
         }).As<VisualizationOptions>();
 
         builder.RegisterType<BasicFileReader>().As<IFileReader>();
+        builder.RegisterType<DocxFileReader>().As<IFileReader>();
+        
+        builder.Register(c =>
+        {
+            var readers = c.Resolve<IEnumerable<IFileReader>>();
+            return new FileReaderFactory(readers);
+        }).AsSelf().SingleInstance();
         
         builder.Register<IWordFilter>(c =>
         {
             var opts = c.Resolve<Options>();
             if (!string.IsNullOrWhiteSpace(opts.FilterFilePath))
             {
-                var reader = c.Resolve<IFileReader>();
-                return new FileWordFilter(reader, opts.FilterFilePath);
+                var factory = c.Resolve<FileReaderFactory>();
+                return new FileWordFilter(factory, opts.FilterFilePath);
             }
             return new DummyWordFilter();
         }).As<IWordFilter>();
