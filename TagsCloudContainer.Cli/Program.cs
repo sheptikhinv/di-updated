@@ -36,23 +36,40 @@ class Program
         {
             Console.WriteLine($"{pair.Key}: {pair.Value}");
         }
+
         Console.WriteLine($"Visualization saved to file {options.OutputFilePath}");
     }
 
     private static IContainer BuildContainer(Options options)
     {
         var builder = new ContainerBuilder();
-        
+
         builder.RegisterInstance(options).AsSelf().SingleInstance();
-        
+        builder.Register(c =>
+        {
+            var opts = c.Resolve<Options>();
+            var visualizationOptions = new VisualizationOptions
+            {
+                BackgroundColor = Color.FromName(opts.BackgroundColor).IsKnownColor
+                    ? Color.FromName(opts.BackgroundColor)
+                    : Color.Black,
+                FontColor = Color.FromName(opts.TextColor).IsKnownColor ? Color.FromName(opts.TextColor) : null,
+                FontSize = opts.FontSize,
+                ImageSize = opts.ImageSize
+            };
+            return visualizationOptions;
+        }).As<VisualizationOptions>();
+
         builder.RegisterType<BasicFileReader>().As<IFileReader>();
         builder.RegisterType<DummyWordFilter>().As<IWordFilter>();
+
         builder.Register(c =>
         {
             var opts = c.Resolve<Options>();
             var center = new Point(opts.ImageSize / 2, opts.ImageSize / 2);
-            return new SpiralCoordinateGenerator(center, 0.1);
+            return new SpiralCoordinateGenerator(center, opts.AngleStep);
         }).As<ICoordinateGenerator>();
+
         builder.RegisterType<BasicVisualizator>().As<IVisualizator>();
 
         return builder.Build();
