@@ -4,16 +4,16 @@ using TagsCloudContainer.Core.CoordinateGenerators;
 
 namespace TagsCloudContainer.Core.Visualizators;
 
-public readonly record struct CloudBounds(int MinX, int MinY, int MaxX, int MaxY)
-{
-    public int Width => MaxX - MinX;
-    public int Height => MaxY - MinY;
-}
-
 public readonly record struct WordLayout(string Word, Rectangle Bounds, float FontSize);
 
 public class BasicVisualizator : IVisualizator
 {
+    private readonly record struct CloudBounds(int MinX, int MinY, int MaxX, int MaxY)
+    {
+        public int Width => MaxX - MinX;
+        public int Height => MaxY - MinY;
+    }
+    
     private readonly ICoordinateGenerator _generator;
     private readonly Random _random;
     private VisualizationOptions _visualizationOptions;
