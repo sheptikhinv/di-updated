@@ -1,6 +1,6 @@
 namespace TagsCloudContainer.Core.WordFilters;
 
-public class DummyBoringWordsFilter : IBoringWordsFilter
+public class LengthBoringWordsFilter : IBoringWordsFilter
 {
     private const int MinWordLength = 3;
 

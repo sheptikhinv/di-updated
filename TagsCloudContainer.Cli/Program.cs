@@ -75,7 +75,7 @@ class Program
                 var factory = c.Resolve<FileReaderFactory>();
                 return new FileBoringWordsFilter(factory, opts.FilterFilePath);
             }
-            return new DummyBoringWordsFilter();
+            return new LengthBoringWordsFilter();
         }).As<IBoringWordsFilter>();
 
         builder.Register(c =>
