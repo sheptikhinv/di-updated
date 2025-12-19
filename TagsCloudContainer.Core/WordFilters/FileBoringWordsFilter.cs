@@ -19,7 +19,7 @@ public class FileBoringWordsFilter : IBoringWordsFilter
 
     public List<string> GetBoringWords(List<string> words)
     {
-        var result = words.Where(w => _wordsToExclude.Contains(w)).ToList();
+        var result = words.Where(w => _wordsToExclude.Contains(w)).Distinct().ToList();
         return result;
     }
 }
