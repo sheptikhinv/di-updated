@@ -2,13 +2,13 @@ using TagsCloudContainer.Core.FileReaders;
 
 namespace TagsCloudContainer.Core.WordFilters;
 
-public class FileWordFilter : IWordFilter
+public class FileBoringWordsFilter : IBoringWordsFilter
 {
     private readonly List<string> _wordsToExclude;
 
-    public FileWordFilter(FileReaderFactory readerFactory, string filePath)
+    public FileBoringWordsFilter(FileReaderFactory readerFactory, string filePath)
     {
-        _wordsToExclude = readerFactory.ReadFile(filePath).Distinct().ToList();
+        _wordsToExclude = readerFactory.ReadFile(filePath).Distinct().Select(w => w.ToLower()).ToList();
     }
 
     public List<string> ExcludeBoringWords(List<string> words)
