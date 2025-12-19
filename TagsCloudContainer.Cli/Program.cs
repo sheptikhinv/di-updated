@@ -61,7 +61,17 @@ class Program
         }).As<VisualizationOptions>();
 
         builder.RegisterType<BasicFileReader>().As<IFileReader>();
-        builder.RegisterType<DummyWordFilter>().As<IWordFilter>();
+        
+        builder.Register<IWordFilter>(c =>
+        {
+            var opts = c.Resolve<Options>();
+            if (!string.IsNullOrWhiteSpace(opts.FilterFilePath))
+            {
+                var reader = c.Resolve<IFileReader>();
+                return new FileWordFilter(reader, opts.FilterFilePath);
+            }
+            return new DummyWordFilter();
+        }).As<IWordFilter>();
 
         builder.Register(c =>
         {
