@@ -15,7 +15,7 @@ public class BasicFileReader : IFileReader
         try
         {
             var lines = File.ReadAllLines(filePath);
-            return lines.Select(w => w.ToLower()).ToList();
+            return lines.ToList();
         }
         catch (IOException e)
         {

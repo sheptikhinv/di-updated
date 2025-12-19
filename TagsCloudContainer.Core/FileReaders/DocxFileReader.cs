@@ -24,7 +24,7 @@ public class DocxFileReader : IFileReader
                 return [];
 
             return body.Descendants<Paragraph>()
-                .Select(p => p.InnerText.Trim().ToLower())
+                .Select(p => p.InnerText.Trim())
                 .Where(text => !string.IsNullOrWhiteSpace(text))
                 .ToList();
         }
