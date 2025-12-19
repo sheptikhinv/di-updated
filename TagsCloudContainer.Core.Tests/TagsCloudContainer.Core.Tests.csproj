@@ -21,4 +21,12 @@
         <Using Include="NUnit.Framework"/>
     </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TagsCloudContainer.Cli\TagsCloudContainer.Cli.csproj" />
+  </ItemGroup>
+
 </Project>
