@@ -11,7 +11,7 @@ public class Options
     public string? FilterFilePath { get; set; }
 
     [Option('o', "outputFile", Required = false, HelpText = "Path to the output file")]
-    public string? OutputFilePath { get; set; } = Path.Combine(Environment.CurrentDirectory, $"TagsCloud_{DateTime.UtcNow:yyyy-MM-dd_HH-mm-ss}.png");
+    public string? OutputFilePath { get; set; }
     
     [Option('a', "angleStep", Required = false, HelpText = "Angle step for the spiral algorithm")]
     public double AngleStepRadians { get; set; } = 0.1;

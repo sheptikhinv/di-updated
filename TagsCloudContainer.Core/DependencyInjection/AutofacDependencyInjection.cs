@@ -1,7 +1,9 @@
 ﻿using System.Drawing;
 using Autofac;
+using TagsCloudContainer.Core.CloudRenderers;
 using TagsCloudContainer.Core.CoordinateGenerators;
 using TagsCloudContainer.Core.FileReaders;
+using TagsCloudContainer.Core.LayoutBuilders;
 using TagsCloudContainer.Core.Utils;
 using TagsCloudContainer.Core.Visualizators;
 using TagsCloudContainer.Core.WordFilters;
@@ -11,7 +13,7 @@ namespace TagsCloudContainer.Core.DependencyInjection;
 public static class AutofacDependencyInjection
 {
     public static ContainerBuilder AddVisualizationOptions(this ContainerBuilder builder, string backgroundColor,
-        string textColor, float fontSize, int imageSize)
+        string textColor, float fontSize, int imageWidthPx, int imageHeightPx)
     {
         var visualizationOptions = new VisualizationOptions
         {
@@ -20,7 +22,8 @@ public static class AutofacDependencyInjection
                 : Color.Black,
             FontColor = Color.FromName(textColor).IsKnownColor ? Color.FromName(textColor) : null,
             FontSize = fontSize,
-            ImageWidthPx = imageSize
+            ImageWidthPx = imageWidthPx,
+            ImageHeightPx = imageHeightPx
         };
 
         builder.RegisterInstance(visualizationOptions).AsSelf();
@@ -87,9 +90,16 @@ public static class AutofacDependencyInjection
         return builder;
     }
 
-    public static ContainerBuilder AddVisualizators(this ContainerBuilder builder)
+    public static ContainerBuilder AddCloudRenderer(this ContainerBuilder builder)
     {
-        builder.RegisterType<BasicVisualizator>().As<IVisualizator>();
+        builder.RegisterType<BasicCloudRenderer>().As<ICloudRenderer>();
+        
+        return builder;
+    }
+
+    public static ContainerBuilder AddLayoutBuilder(this ContainerBuilder builder)
+    {
+        builder.RegisterType<BasicLayoutBuilder>().As<ILayoutBuilder>();
 
         return builder;
     }

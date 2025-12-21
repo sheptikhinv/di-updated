@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using TagsCloudContainer.Core.CloudRenderers;
+using TagsCloudContainer.Core.LayoutBuilders;
 using TagsCloudContainer.Core.Utils;
 using TagsCloudContainer.Core.Visualizators;
 
@@ -12,10 +14,16 @@ public class Client
 
         using var scope = container.BeginLifetimeScope();
         var wordProcessor = scope.Resolve<WordsProcessor>();
-        var visualizator = scope.Resolve<IVisualizator>();
+        var layoutBuilder = scope.Resolve<ILayoutBuilder>();
+        var cloudRenderer = scope.Resolve<ICloudRenderer>();
 
         var count = wordProcessor.ProcessWords(options.FilePath);
-        visualizator.DrawWordsToFile(count, options.OutputFilePath);
+        var layout = layoutBuilder.BuildLayout(count);
+        var bitmap = cloudRenderer.RenderCloud(layout);
+        var output = options.OutputFilePath ??
+                     Path.Combine(Environment.CurrentDirectory, $"TagsCloud_{DateTime.UtcNow:yyyy-MM-dd_HH-mm-ss}.png");
+
+        FileSaver.SaveFile(bitmap, output);
 
         foreach (var pair in count.OrderByDescending(pair => pair.Value))
         {
