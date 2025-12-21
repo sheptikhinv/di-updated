@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using CommandLine;
-using TagsCloudContainer.Core.DependencyInjection;
 using TagsCloudContainer.Core.Utils;
 using TagsCloudContainer.Core.Visualizators;
 
@@ -17,7 +16,7 @@ class Program
 
     private static void Run(Options options)
     {
-        var container = BuildContainer(options);
+        var container = Startup.ConfigureServices(options);
 
         using var scope = container.BeginLifetimeScope();
         var wordProcessor = scope.Resolve<WordsProcessor>();
@@ -32,19 +31,6 @@ class Program
         }
 
         Console.WriteLine($"Visualization saved to file {options.OutputFilePath}");
-    }
-
-    private static IContainer BuildContainer(Options options)
-    {
-        var builder = new ContainerBuilder()
-            .AddVisualizationOptions(options.BackgroundColor, options.TextColor, options.FontSize, options.ImageSize)
-            .AddFileReaders()
-            .AddWordsFilter(options.FilterFilePath)
-            .AddWordsProcessor()
-            .AddCoordinateGenerators(options.ImageSize, options.AngleStep)
-            .AddVisualizators();
-        
-        return builder.Build();
     }
 
     private static void HandleParseErrors(IEnumerable<Error> errors)
