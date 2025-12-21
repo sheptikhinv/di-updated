@@ -1,5 +1,4 @@
 using System.Drawing;
-using NUnit.Framework;
 using TagsCloudContainer.Core.CoordinateGenerators;
 
 namespace TagsCloudContainer.Core.Tests.CoordinateGenerators;
@@ -8,7 +7,7 @@ namespace TagsCloudContainer.Core.Tests.CoordinateGenerators;
 public class SpiralCoordinateGeneratorTests
 {
     [Test]
-    public void GetNextPosition_FirstCall_ReturnsCenter()
+    public void GetNextPosition_FirstCall_ReturnsCenter_Test()
     {
         var center = new Point(100, 200);
         var gen = new SpiralCoordinateGenerator(center, 1.0);
@@ -19,7 +18,7 @@ public class SpiralCoordinateGeneratorTests
     }
 
     [Test]
-    public void GetNextPosition_Eventually_MovesAwayFromCenter()
+    public void GetNextPosition_Eventually_MovesAwayFromCenter_Test()
     {
         var center = new Point(0, 0);
         var gen = new SpiralCoordinateGenerator(center, 0.5);
@@ -39,13 +38,13 @@ public class SpiralCoordinateGeneratorTests
     }
 
     [Test]
-    public void GetNextPosition_ProducesDifferentPoints_OverTime()
+    public void GetNextPosition_ProducesDifferentPoints_OverTime_Test()
     {
         var center = new Point(0, 0);
         var gen = new SpiralCoordinateGenerator(center, 1.0);
 
         var set = new HashSet<Point>();
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
             set.Add(gen.GetNextPosition());
 
         Assert.That(set.Count, Is.GreaterThan(1), "Expected more than one unique point after 10 calls");

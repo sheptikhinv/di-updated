@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using TagsCloudContainer.Core.WordFilters;
 
 namespace TagsCloudContainer.Core.Tests.WordFilters;
@@ -7,7 +6,7 @@ namespace TagsCloudContainer.Core.Tests.WordFilters;
 public class LengthBoringWordsFilterTests
 {
     [Test]
-    public void ExcludeBoringWords_RemovesShorterThan3()
+    public void ExcludeBoringWords_RemovesShorterThan3_Test()
     {
         var filter = new LengthBoringWordsFilter();
         var input = new List<string> { "I", "am", "Ok", "nice", "WORLD" };
@@ -18,7 +17,7 @@ public class LengthBoringWordsFilterTests
     }
 
     [Test]
-    public void GetBoringWords_ReturnsShortOnesOnly()
+    public void GetBoringWords_ReturnsShortOnesOnly_Test()
     {
         var filter = new LengthBoringWordsFilter();
         var input = new List<string> { "a", "bb", "ccc", "dddd" };
