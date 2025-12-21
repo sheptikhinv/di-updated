@@ -20,10 +20,4 @@ public class FileReaderFactory
 
         return reader;
     }
-
-    public List<string> ReadFile(string filePath)
-    {
-        var reader = GetReader(filePath);
-        return reader.GetWords(filePath);
-    }
 }

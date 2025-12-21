@@ -4,13 +4,14 @@ public class TxtFileReader : IFileReader
 {
     private static readonly string[] SupportedExtensions = [".txt"];
 
-    public bool CanReadFile(string filePath)
+    public bool CanReadFile(string extension)
     {
-        var extension = Path.GetExtension(filePath).ToLower();
-        return SupportedExtensions.Contains(extension);
+        return !extension.StartsWith('.')
+            ? throw new ArgumentException($"Invalid file extension: {extension}")
+            : SupportedExtensions.Contains(extension);
     }
 
-    public List<string> GetWords(string filePath)
+    public List<string> ReadWords(string filePath)
     {
         try
         {

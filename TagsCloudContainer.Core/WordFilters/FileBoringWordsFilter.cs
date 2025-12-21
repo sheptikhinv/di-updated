@@ -8,7 +8,12 @@ public class FileBoringWordsFilter : IBoringWordsFilter
 
     public FileBoringWordsFilter(FileReaderFactory readerFactory, string filePath)
     {
-        _wordsToExclude = readerFactory.ReadFile(filePath).Distinct().Select(w => w.ToLower()).ToList();
+        _wordsToExclude = readerFactory
+            .GetReader(filePath)
+            .ReadWords(filePath)
+            .Distinct()
+            .Select(w => w.ToLower())
+            .ToList();
     }
 
     public List<string> ExcludeBoringWords(List<string> words)

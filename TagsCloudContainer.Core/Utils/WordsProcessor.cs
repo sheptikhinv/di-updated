@@ -16,7 +16,7 @@ public class WordsProcessor
     
     public Dictionary<string, int> ProcessWords(string filePath)
     {
-        var words = _readerFactory.GetReader(filePath).GetWords(filePath)
+        var words = _readerFactory.GetReader(filePath).ReadWords(filePath)
             .Select(w => w.ToLower()).ToList();
         var filteredWords = _boringWordsFilter.ExcludeBoringWords(words);
         
