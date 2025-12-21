@@ -14,8 +14,8 @@ class Program
     static void Main(string[] args)
     {
         Parser.Default.ParseArguments<Options>(args)
-            .WithParsed(options => Run(options))
-            .WithNotParsed(errors => HandleParseErrors(errors));
+            .WithParsed(Run)
+            .WithNotParsed(HandleParseErrors);
     }
 
     private static void Run(Options options)
