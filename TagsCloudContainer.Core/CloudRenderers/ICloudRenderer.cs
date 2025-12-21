@@ -6,5 +6,5 @@ namespace TagsCloudContainer.Core.CloudRenderers;
 
 public interface ICloudRenderer
 {
-    Bitmap RenderCloud(List<WordLayout> wordLayouts);
+    Bitmap RenderCloud(List<WordLayout> wordLayouts, VisualizationOptions options);
 }

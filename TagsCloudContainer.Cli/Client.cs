@@ -16,10 +16,11 @@ public class Client
         var wordProcessor = scope.Resolve<WordsProcessor>();
         var layoutBuilder = scope.Resolve<ILayoutBuilder>();
         var cloudRenderer = scope.Resolve<ICloudRenderer>();
+        var visualizationOptions = scope.Resolve<VisualizationOptions>();
 
         var count = wordProcessor.ProcessWords(options.FilePath);
         var layout = layoutBuilder.BuildLayout(count);
-        var bitmap = cloudRenderer.RenderCloud(layout);
+        var bitmap = cloudRenderer.RenderCloud(layout, visualizationOptions);
         var output = options.OutputFilePath ??
                      Path.Combine(Environment.CurrentDirectory, $"TagsCloud_{DateTime.UtcNow:yyyy-MM-dd_HH-mm-ss}.png");
 

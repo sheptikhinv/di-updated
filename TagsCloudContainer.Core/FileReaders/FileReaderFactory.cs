@@ -11,8 +11,8 @@ public class FileReaderFactory
 
     public IFileReader GetReader(string filePath)
     {
-        var reader = _readers.FirstOrDefault(r => r.CanReadFile(filePath));
-        
+        var reader = _readers.FirstOrDefault(r => r.CanReadFile(Path.GetExtension(filePath)));
+
         if (reader == null)
         {
             throw new NotSupportedException($"No reader found for file: {filePath}");

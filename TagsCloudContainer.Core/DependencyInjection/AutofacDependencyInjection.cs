@@ -13,7 +13,7 @@ namespace TagsCloudContainer.Core.DependencyInjection;
 public static class AutofacDependencyInjection
 {
     public static ContainerBuilder AddVisualizationOptions(this ContainerBuilder builder, string backgroundColor,
-        string textColor, float fontSize, int imageWidthPx, int imageHeightPx)
+        string textColor, float fontSize, int? imageWidthPx, int? imageHeightPx, string? fontFamily)
     {
         var visualizationOptions = new VisualizationOptions
         {
@@ -23,7 +23,8 @@ public static class AutofacDependencyInjection
             FontColor = Color.FromName(textColor).IsKnownColor ? Color.FromName(textColor) : null,
             FontSize = fontSize,
             ImageWidthPx = imageWidthPx,
-            ImageHeightPx = imageHeightPx
+            ImageHeightPx = imageHeightPx,
+            FontFamily = fontFamily
         };
 
         builder.RegisterInstance(visualizationOptions).AsSelf();

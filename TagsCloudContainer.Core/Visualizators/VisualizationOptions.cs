@@ -8,6 +8,7 @@ public record VisualizationOptions
     public float FontSize { get; init; } = 12f;
     public Color BackgroundColor { get; init; } = Color.Black;
     public Color? FontColor { get; init; }
-    public int ImageWidthPx { get; init; }
-    public int ImageHeightPx { get; init; }
+    public string? FontFamily { get; init; } = "Arial";
+    public int? ImageWidthPx { get; init; }
+    public int? ImageHeightPx { get; init; }
 }

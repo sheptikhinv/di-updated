@@ -15,11 +15,11 @@ public class Startup
     {
         return new ContainerBuilder()
             .AddVisualizationOptions(options.BackgroundColor, options.TextColor, options.FontSize,
-                options.OutputWidthPx, options.OutputHeightPx)
+                options.OutputWidthPx, options.OutputHeightPx, options.FontFamily)
             .AddFileReaders()
             .AddWordsFilter(options.FilterFilePath)
             .AddWordsProcessor()
-            .AddCoordinateGenerators(options.OutputWidthPx, options.OutputHeightPx, options.AngleStepRadians)
+            .AddCoordinateGenerators(options.OutputWidthPx ?? 100, options.OutputHeightPx ?? 100, options.AngleStepRadians)
             .AddLayoutBuilder()
             .AddCloudRenderer();
     }

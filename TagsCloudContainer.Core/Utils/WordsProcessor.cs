@@ -13,18 +13,21 @@ public class WordsProcessor
         _readerFactory = readerFactory;
         _boringWordsFilter = boringWordsFilter;
     }
-    
+
     public Dictionary<string, int> ProcessWords(string filePath)
     {
         var words = _readerFactory.GetReader(filePath).ReadWords(filePath)
             .Select(w => w.ToLower()).ToList();
         var filteredWords = _boringWordsFilter.ExcludeBoringWords(words);
-        
+
         var result = new Dictionary<string, int>();
         foreach (var word in filteredWords)
         {
-            result.TryAdd(word, 0);
-            result[word]++;
+            var exists = result.TryGetValue(word, out var frequency);
+            if (exists)
+                result[word] = frequency + 1;
+            else
+                result[word] = 1;
         }
 
         return result;
