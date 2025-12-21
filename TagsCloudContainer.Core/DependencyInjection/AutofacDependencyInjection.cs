@@ -60,7 +60,8 @@ public static class AutofacDependencyInjection
             if (string.IsNullOrWhiteSpace(filterFilePath))
                 return new LengthBoringWordsFilter();
             var factory = c.Resolve<FileReaderFactory>();
-            return new FileBoringWordsFilter(factory, filterFilePath);
+            var words = factory.GetReader(filterFilePath).ReadWords(filterFilePath);
+            return new SpecifiedBoringWordsFilter(words);
         }).As<IBoringWordsFilter>();
 
         return builder;
