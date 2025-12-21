@@ -14,11 +14,11 @@ public class Startup
     private static ContainerBuilder BuildContainer(Options options)
     {
         return new ContainerBuilder()
-            .AddVisualizationOptions(options.BackgroundColor, options.TextColor, options.FontSize, options.ImageSize)
+            .AddVisualizationOptions(options.BackgroundColor, options.TextColor, options.FontSize, options.OutputWidthPx)
             .AddFileReaders()
             .AddWordsFilter(options.FilterFilePath)
             .AddWordsProcessor()
-            .AddCoordinateGenerators(options.ImageSize, options.AngleStep)
+            .AddCoordinateGenerators(options.OutputWidthPx, options.OutputHeightPx, options.AngleStepRadians)
             .AddVisualizators();
     }
 }

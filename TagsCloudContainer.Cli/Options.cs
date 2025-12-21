@@ -11,13 +11,16 @@ public class Options
     public string? FilterFilePath { get; set; }
 
     [Option('o', "outputFile", Required = false, HelpText = "Path to the output file")]
-    public string OutputFilePath { get; set; } = Path.Combine(Environment.CurrentDirectory, $"TagsCloud_{DateTime.UtcNow:yyyy-MM-dd_HH-mm-ss}.png");
+    public string? OutputFilePath { get; set; } = Path.Combine(Environment.CurrentDirectory, $"TagsCloud_{DateTime.UtcNow:yyyy-MM-dd_HH-mm-ss}.png");
     
     [Option('a', "angleStep", Required = false, HelpText = "Angle step for the spiral algorithm")]
-    public double AngleStep { get; set; } = 0.1;
+    public double AngleStepRadians { get; set; } = 0.1;
     
-    [Option('s', "imageSize", Required = false, HelpText = "Size of the image")]
-    public int ImageSize { get; set; } = 2048;
+    [Option('w', "outputWidth", Required = false, HelpText = "Size of the image")]
+    public int OutputWidthPx { get; set; } = 2048;
+    
+    [Option('l', "outputHeight", Required = false, HelpText = "Size of the image")]
+    public int OutputHeightPx { get; set; } = 2048;
     
     [Option('t', "fontSize", Required = false, HelpText = "Font size of the words")]
     public float FontSize { get; set; } = 12;

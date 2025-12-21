@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using TagsCloudContainer.Core.CoordinateGenerators;
+using TagsCloudContainer.Core.Utils;
 
 namespace TagsCloudContainer.Core.Visualizators;
 
@@ -13,7 +14,7 @@ public class BasicVisualizator : IVisualizator
         public int Width => MaxX - MinX;
         public int Height => MaxY - MinY;
     }
-    
+
     private readonly ICoordinateGenerator _generator;
     private readonly Random _random;
     private VisualizationOptions _visualizationOptions;
@@ -39,14 +40,14 @@ public class BasicVisualizator : IVisualizator
         var bitmap = CreateBitmapForCloud(wordLayouts);
 
         DrawWordsOnBitmap(bitmap, wordLayouts);
-        bitmap.Save(path, ImageFormat.Png);
+        FileSaver.SaveFile(bitmap, path);
         bitmap.Dispose();
     }
 
     private void SaveEmptyImage(string path)
     {
-        using var emptyBitmap = new Bitmap(100, 100);
-        emptyBitmap.Save(path, ImageFormat.Png);
+        using var emptyBitmap = new Bitmap(_visualizationOptions.ImageWidthPx, _visualizationOptions.ImageHeightPx);
+        FileSaver.SaveFile(emptyBitmap, path);
     }
 
     private List<WordLayout> CreateWordLayouts(Dictionary<string, int> wordFrequencies)
@@ -121,13 +122,8 @@ public class BasicVisualizator : IVisualizator
 
     private Bitmap CreateBitmapForCloud(List<WordLayout> wordLayouts)
     {
-        if (wordLayouts.Count == 0)
-            return new Bitmap(100, 100);
-
-        if (_visualizationOptions.ImageSize > 0)
-        {
-            return new Bitmap(_visualizationOptions.ImageSize, _visualizationOptions.ImageSize);
-        }
+        if (wordLayouts.Count == 0 || _visualizationOptions.ImageWidthPx > 0)
+            return new Bitmap(_visualizationOptions.ImageWidthPx, _visualizationOptions.ImageHeightPx);
 
         var bounds = CalculateCloudBounds(wordLayouts);
         var width = bounds.Width + _visualizationOptions.Padding * 2;
@@ -145,7 +141,7 @@ public class BasicVisualizator : IVisualizator
         if (wordLayouts.Count == 0)
             return;
 
-        if (_visualizationOptions.ImageSize > 0)
+        if (_visualizationOptions.ImageWidthPx > 0)
         {
             DrawWordsWithFixedSize(graphics, wordLayouts);
         }
@@ -162,9 +158,9 @@ public class BasicVisualizator : IVisualizator
     private void DrawWordsWithFixedSize(Graphics graphics, List<WordLayout> wordLayouts)
     {
         var cloudBounds = CalculateCloudBounds(wordLayouts);
-        var centerX = _visualizationOptions.ImageSize / 2;
-        var centerY = _visualizationOptions.ImageSize / 2;
-        
+        var centerX = _visualizationOptions.ImageWidthPx / 2;
+        var centerY = _visualizationOptions.ImageWidthPx / 2;
+
         var cloudCenterX = (cloudBounds.MinX + cloudBounds.MaxX) / 2;
         var cloudCenterY = (cloudBounds.MinY + cloudBounds.MaxY) / 2;
 
@@ -172,10 +168,10 @@ public class BasicVisualizator : IVisualizator
         {
             using var font = new Font("Arial", layout.FontSize, FontStyle.Regular);
             using var brush = new SolidBrush(_visualizationOptions.FontColor ?? GetRandomColor());
-            
+
             var adjustedX = layout.Bounds.Left - cloudCenterX + centerX;
             var adjustedY = layout.Bounds.Top - cloudCenterY + centerY;
-            
+
             graphics.DrawString(layout.Word, font, brush, new Point(adjustedX, adjustedY));
         }
     }

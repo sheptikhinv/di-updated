@@ -8,5 +8,6 @@ public record VisualizationOptions
     public float FontSize { get; init; } = 12f;
     public Color BackgroundColor { get; init; } = Color.Black;
     public Color? FontColor { get; init; }
-    public int ImageSize { get; init; } = 300;
+    public int ImageWidthPx { get; init; } = 300;
+    public int ImageHeightPx { get; init; } = 300;
 }
