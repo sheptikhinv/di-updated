@@ -37,7 +37,7 @@ public static class AutofacDependencyInjection
 
     public static ContainerBuilder AddFileReaders(this ContainerBuilder builder)
     {
-        builder.RegisterType<BasicFileReader>().As<IFileReader>();
+        builder.RegisterType<TxtFileReader>().As<IFileReader>();
         builder.RegisterType<DocxFileReader>().As<IFileReader>();
 
         builder.Register(c =>

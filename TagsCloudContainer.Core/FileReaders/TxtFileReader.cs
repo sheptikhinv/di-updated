@@ -1,6 +1,6 @@
 namespace TagsCloudContainer.Core.FileReaders;
 
-public class BasicFileReader : IFileReader
+public class TxtFileReader : IFileReader
 {
     private static readonly string[] SupportedExtensions = [".txt"];
 
