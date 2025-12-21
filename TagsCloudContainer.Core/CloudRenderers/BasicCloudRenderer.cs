@@ -69,8 +69,8 @@ public class BasicCloudRenderer : ICloudRenderer
         VisualizationOptions visualizationOptions)
     {
         var cloudBounds = CalculateCloudBounds(wordLayouts);
-        var centerX = visualizationOptions.ImageWidthPx!.Value / 2;
-        var centerY = visualizationOptions.ImageHeightPx!.Value / 2;
+        var centerX = visualizationOptions.ImageWidthPx.Value / 2;
+        var centerY = visualizationOptions.ImageHeightPx.Value / 2;
 
         var cloudCenterX = (cloudBounds.MinX + cloudBounds.MaxX) / 2;
         var cloudCenterY = (cloudBounds.MinY + cloudBounds.MaxY) / 2;

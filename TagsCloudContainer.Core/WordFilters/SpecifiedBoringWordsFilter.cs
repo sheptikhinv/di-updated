@@ -11,7 +11,7 @@ public class SpecifiedBoringWordsFilter : IBoringWordsFilter
 
     public List<string> ExcludeBoringWords(List<string> words)
     {
-        var result = words.Except(_wordsToExclude).ToList();
+        var result = words.Where(w => !_wordsToExclude.Contains(w)).ToList();
         return result;
     }
 

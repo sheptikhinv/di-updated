@@ -1,7 +1,4 @@
-﻿using Autofac;
-using CommandLine;
-using TagsCloudContainer.Core.Utils;
-using TagsCloudContainer.Core.Visualizators;
+﻿using CommandLine;
 
 namespace TagsCloudContainer.Cli;
 

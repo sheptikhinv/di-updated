@@ -6,32 +6,29 @@ namespace TagsCloudContainer.Core.WordProcessing;
 
 public class WordsProcessor
 {
-    private readonly FileReaderFactory _readerFactory;
     private readonly IBoringWordsFilter _boringWordsFilter;
     private readonly IEnumerable<IWordProcessingRule> _wordProcessingRules;
 
-    public WordsProcessor(FileReaderFactory readerFactory, IBoringWordsFilter boringWordsFilter,
+    public WordsProcessor(IBoringWordsFilter boringWordsFilter,
         IEnumerable<IWordProcessingRule> wordProcessingRules)
     {
-        _readerFactory = readerFactory;
         _boringWordsFilter = boringWordsFilter;
         _wordProcessingRules = wordProcessingRules;
     }
 
-    public Dictionary<string, int> ReadProcessAndCountWords(string filePath)
+    public Dictionary<string, int> ReadProcessAndCountWords(IEnumerable<string> words)
+{
+    var processedWords = words;
+    
+    foreach (var rule in _wordProcessingRules)
     {
-        var readWords = _readerFactory.GetReader(filePath).ReadWords(filePath);
-
-        IEnumerable<string> words = readWords;
-        foreach (var rule in _wordProcessingRules)
-        {
-            rule.Process(words);
-        }
-
-        var filteredWords = _boringWordsFilter.ExcludeBoringWords(words.ToList());
-        var result = CountWords(filteredWords);
-        return result;
+        processedWords = rule.Process(processedWords);
     }
+
+    var filteredWords = _boringWordsFilter.ExcludeBoringWords(processedWords.ToList());
+    var result = CountWords(filteredWords);
+    return result;
+}
 
     private Dictionary<string, int> CountWords(List<string> words)
     {

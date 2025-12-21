@@ -4,7 +4,6 @@ using TagsCloudContainer.Core.CloudRenderers;
 using TagsCloudContainer.Core.CoordinateGenerators;
 using TagsCloudContainer.Core.FileReaders;
 using TagsCloudContainer.Core.LayoutBuilders;
-using TagsCloudContainer.Core.Utils;
 using TagsCloudContainer.Core.Visualizators;
 using TagsCloudContainer.Core.WordFilters;
 using TagsCloudContainer.Core.WordProcessing;
@@ -75,9 +74,8 @@ public static class AutofacDependencyInjection
         builder.Register(c =>
         {
             var rules = c.Resolve<IEnumerable<IWordProcessingRule>>();
-            var readerFactory = c.Resolve<FileReaderFactory>();
             var filter = c.Resolve<IBoringWordsFilter>();
-            return new WordsProcessor(readerFactory, filter, rules);
+            return new WordsProcessor(filter, rules);
         }).AsSelf();
 
         return builder;
