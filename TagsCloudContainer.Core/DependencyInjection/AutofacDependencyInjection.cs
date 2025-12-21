@@ -7,6 +7,8 @@ using TagsCloudContainer.Core.LayoutBuilders;
 using TagsCloudContainer.Core.Utils;
 using TagsCloudContainer.Core.Visualizators;
 using TagsCloudContainer.Core.WordFilters;
+using TagsCloudContainer.Core.WordProcessing;
+using TagsCloudContainer.Core.WordProcessing.WordProcessingRules;
 
 namespace TagsCloudContainer.Core.DependencyInjection;
 
@@ -69,11 +71,13 @@ public static class AutofacDependencyInjection
 
     public static ContainerBuilder AddWordsProcessor(this ContainerBuilder builder)
     {
+        builder.RegisterType<LowerizeWordProcessingRule>().As<IWordProcessingRule>();
         builder.Register(c =>
         {
+            var rules = c.Resolve<IEnumerable<IWordProcessingRule>>();
             var readerFactory = c.Resolve<FileReaderFactory>();
             var filter = c.Resolve<IBoringWordsFilter>();
-            return new WordsProcessor(readerFactory, filter);
+            return new WordsProcessor(readerFactory, filter, rules);
         }).AsSelf();
 
         return builder;
@@ -95,7 +99,7 @@ public static class AutofacDependencyInjection
     public static ContainerBuilder AddCloudRenderer(this ContainerBuilder builder)
     {
         builder.RegisterType<BasicCloudRenderer>().As<ICloudRenderer>();
-        
+
         return builder;
     }
 

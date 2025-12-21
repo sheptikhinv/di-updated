@@ -3,6 +3,7 @@ using TagsCloudContainer.Core.CloudRenderers;
 using TagsCloudContainer.Core.LayoutBuilders;
 using TagsCloudContainer.Core.Utils;
 using TagsCloudContainer.Core.Visualizators;
+using TagsCloudContainer.Core.WordProcessing;
 
 namespace TagsCloudContainer.Cli;
 
@@ -18,7 +19,7 @@ public class Client
         var cloudRenderer = scope.Resolve<ICloudRenderer>();
         var visualizationOptions = scope.Resolve<VisualizationOptions>();
 
-        var count = wordProcessor.ProcessWords(options.FilePath);
+        var count = wordProcessor.ReadProcessAndCountWords(options.FilePath);
         var layout = layoutBuilder.BuildLayout(count);
         var bitmap = cloudRenderer.RenderCloud(layout, visualizationOptions);
         var output = options.OutputFilePath ??
