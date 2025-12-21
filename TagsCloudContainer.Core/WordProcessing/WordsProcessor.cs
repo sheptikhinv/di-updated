@@ -16,7 +16,7 @@ public class WordsProcessor
         _wordProcessingRules = wordProcessingRules;
     }
 
-    public Dictionary<string, int> ReadProcessAndCountWords(IEnumerable<string> words)
+    public Dictionary<string, int> ProcessAndCountWords(IEnumerable<string> words)
 {
     var processedWords = words;
     

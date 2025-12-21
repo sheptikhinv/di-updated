@@ -22,7 +22,7 @@ public class Client
         var visualizationOptions = scope.Resolve<VisualizationOptions>();
 
         var rawWords = fileReaderFactory.GetReader(options.FilePath).ReadWords(options.FilePath);
-        var count = wordProcessor.ReadProcessAndCountWords(rawWords);
+        var count = wordProcessor.ProcessAndCountWords(rawWords);
         var layout = layoutBuilder.BuildLayout(count);
         var bitmap = cloudRenderer.RenderCloud(layout, visualizationOptions);
         var output = options.OutputFilePath ??

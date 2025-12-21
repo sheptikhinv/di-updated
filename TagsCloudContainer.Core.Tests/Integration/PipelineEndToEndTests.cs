@@ -53,7 +53,7 @@ public class PipelineEndToEndTests
         var renderer = new BasicCloudRenderer();
 
         var rawWords = readerFactory.GetReader(_tempInputFile).ReadWords(_tempInputFile);
-        var counts = processor.ReadProcessAndCountWords(rawWords);
+        var counts = processor.ProcessAndCountWords(rawWords);
         var bitmap = renderer.RenderCloud(layoutBuilder.BuildLayout(counts), options);
         FileSaver.SaveFile(bitmap, _tempOutputFile);
         
